@@ -18,7 +18,7 @@ class InvosightUserController {
 
         user.first_name = userInfo.first_name;
         user.last_name = userInfo.last_name;
-        user.address_name = userInfo.address;
+        user.address = userInfo.address;
         user.email = userInfo.email;
         user.contact = userInfo.contact;
 
@@ -41,7 +41,7 @@ class InvosightUserController {
 
         user.first_name = userInfo.first_name;
         user.last_name = userInfo.last_name;
-        user.address_name = userInfo.address;
+        user.address = userInfo.address;
         user.email = userInfo.email;
         user.contact = userInfo.contact;
 

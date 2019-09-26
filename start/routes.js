@@ -16,6 +16,8 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
+Route.on('/').render('users.index')
+
 Route.group(() => {
     Route.get('invosight-user', 'InvosightUserController.index')
     Route.get('invosight-user/:id', 'InvosightUserController.show')
@@ -23,3 +25,4 @@ Route.group(() => {
     Route.put('invosight-user/:id', 'InvosightUserController.update').validator('UpdateUser')
     Route.delete('invosight-user/:id', 'InvosightUserController.delete')
 }).prefix('api')
+
