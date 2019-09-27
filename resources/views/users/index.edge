@@ -20,10 +20,13 @@
             <!--CARD START-->
             <div class="card-body">
               <h5 class="card-title">User list</h5>
-              <button class="btn btn-primary mb-2 mt-3" id="create-btn" data-toggle="modal" data-target="#createModal">Create New</button>
+              <div class="d-flex">
+                <button class="btn btn-primary mb-2 mt-3 mr-2" id="create-btn" data-toggle="modal" data-target="#createModal">Create New</button>
+                <button class="btn btn-danger mb-2 mt-3 d-none" id="bulk-delete-btn">Delete Selected</button>
+              </div>
               <table class="table table-striped">
                   <thead>
-                    <th>Name</th>
+                    <th><input type="checkbox" name="del-all[]" class="mr-2">Name</th>
                     <th>Address</th>
                     <th>Email</th>
                     <th>Contact</th>
@@ -48,6 +51,7 @@
     @include('/users/partials/create-modal')
     @include('/users/partials/edit-modal')
     @include('/users/partials/delete-modal')
+    @include('/users/partials/bulk-delete-modal')
     
     {{ script('/js/jquery.min.js') }}
     {{ script('/js/bootstrap.min.js') }}

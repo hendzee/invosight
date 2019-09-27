@@ -12,7 +12,8 @@ $(document).ready(function(){
         success: function(response){
             $.each(response.users, function(index, element) {
                 $('tbody').append(
-                '<tr><td><input type="checkbox" name="del-id-list[]" class="mr-2">' + element.first_name + ' ' + element.last_name + '</td>' +
+                '<tr><td><input type="checkbox" name="del-id-list[]" class="mr-2" value="' + element._id + '">' +
+                element.first_name + ' ' + element.last_name + '</td>' +
                 '<td>' + element.address + '</td>' +
                 '<td>' + element.email + '</td>' +
                 '<td>' + element.contact + '</td>' +
@@ -40,6 +41,56 @@ $(document).ready(function(){
     $(document).on('click', '.page-number', function(){
         $('.page-number').removeClass('active');
         $(this).addClass('active');
+    })
+
+    /** Check and uncheck all list data */
+    $(document).on('click', '[name="del-all[]"]', function(){
+        if ($('[name="del-all[]"]').is(":checked")){
+            $('[name="del-id-list[]"]').prop('checked', true);
+            /** Show bulk delete button */
+            $('#bulk-delete-btn').fadeIn(300)
+                .removeClass('d-none')
+                .hide()
+                .show();
+        }else{
+            $('[name="del-id-list[]"]').prop('checked', false);
+            /** Hide bulk delete button */
+            $('#bulk-delete-btn').fadeOut(300);
+        }
+    })
+
+    /** Show and hide bulk-delete button*/
+    $(document).on('click', '[name="del-id-list[]"]', function(){
+        if ($('[name="del-id-list[]"]:checked').length > 0){
+            /** Show bulk delete button */
+            $('#bulk-delete-btn')
+                .removeClass('d-none')
+                .hide()
+                .fadeIn(300).show();
+        }else{
+            /** Hide bulk delete button */
+            $('#bulk-delete-btn').fadeOut(300);
+        }
+    })
+
+    /** Show confirmation to bulk delete */
+    $(document).on('click', '#bulk-delete-btn', function(){
+        $('#bulkDeleteModal').modal('show');
+    })
+
+    /** Confirm bulk delete */
+    $(document).on('click','#confirm-bulk-delete-btn', function(){
+        $.each($('[name="del-id-list[]"]:checked'), function(){
+            var id = ($(this).val())
+            $(this).closest('tr').remove();
+
+            $.ajax({
+                url: window.location.origin + '/api/invosight-user/' + id,
+                type: 'DELETE',
+            })
+        })
+
+        $('#bulkDeleteModal').modal('hide');
     })
 
     /** Save or create new user */
