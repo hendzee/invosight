@@ -17,8 +17,8 @@ $(document).ready(function(){
                 '<td>' + element.address + '</td>' +
                 '<td>' + element.email + '</td>' +
                 '<td>' + element.contact + '</td>' +
-                '<td><button class="btn btn-primary mr-2 edit-btn" data-id="' + element._id + '">Edit</button>' + 
-                '<button id="delete-btn" class="btn btn-primary delete-btn" data-id="' + element._id + '">Remove</button></td></tr>'
+                '<td><button class="btn btn-primary mr-2 edit-btn btn-sm" data-id="' + element._id + '"><i class="fas fa-pen"></i></button>' + 
+                '<button id="delete-btn" class="btn btn-danger delete-btn btn-sm" data-id="' + element._id + '"><i class="fas fa-trash"></i></button></td></tr>'
                 );
             });
 
@@ -93,6 +93,11 @@ $(document).ready(function(){
         $('#bulkDeleteModal').modal('hide');
     })
 
+    /** Refresh page */
+    $(document).on('click', '#refresh-btn', function(){
+        location.reload(true);
+    })
+
     /** Save or create new user */
     $(document).on('click', '#store-btn', function(){
         var first_name = $('[name="first_name"]').val()
@@ -110,13 +115,18 @@ $(document).ready(function(){
                 data: { first_name: first_name, last_name: last_name, address: address, email: email, contact: contact },
                 success: function(response){
                     /** Append new data user to row */
+                    $('tr').removeClass('bg-info');
+                    $('tr').removeClass('text-white');
+                    $('.badge').remove();
+
                     $('tbody').prepend(
-                        '<tr class="bg-success text-white"><td>' + response.first_name + ' ' + response.last_name + '<br><span class="badge badge-light">New</span></td>' +
+                        '<tr class="bg-info text-white"><td>' + '<input type="checkbox" name="del-id-list[]" class="mr-2" value="' + response._id + '">' +
+                        response.first_name + ' ' + response.last_name + '<br><span class="badge badge-light">New</span></td>' +
                         '<td>' + response.address + '</td>' +
                         '<td>' + response.email + '</td>' +
                         '<td>' + response.contact + '</td>' +
-                        '<td><button class="btn btn-primary edit-btn mr-2" data-id="' + response._id + '">Edit</button>' + 
-                        '<button class="btn btn-primary" delete-btn data-id="' + response._id + '">Remove</button></td></tr>'
+                        '<td><button class="btn btn-primary mr-2 edit-btn btn-sm" data-id="' + response._id + '"><i class="fas fa-pen"></i></button>' + 
+                        '<button id="delete-btn" class="btn btn-danger delete-btn btn-sm" data-id="' + response._id + '"><i class="fas fa-trash"></i></button></td></tr>'
                     );
     
                     $('#createModal').modal('hide');
@@ -238,8 +248,8 @@ $(document).ready(function(){
                     '<td>' + element.address + '</td>' +
                     '<td>' + element.email + '</td>' +
                     '<td>' + element.contact + '</td>' +
-                    '<td><button class="btn btn-primary mr-2 edit-btn" data-id="' + element._id + '">Edit</button>' + 
-                    '<button id="delete-btn" class="btn btn-primary delete-btn" data-id="' + element._id + '">Remove</button></td></tr>'
+                    '<td><button class="btn btn-primary mr-2 edit-btn btn-sm" data-id="' + element._id + '"><i class="fas fa-pen"></i></button>' + 
+                    '<button id="delete-btn" class="btn btn-danger delete-btn btn-sm" data-id="' + element._id + '"><i class="fas fa-trash"></i></button></td></tr>'
                     );
                 });
             }

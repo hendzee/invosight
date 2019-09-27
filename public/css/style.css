@@ -1,0 +1,7 @@
+ul {
+  padding-inline-start: 20px;
+}
+
+.page-link:hover {
+  cursor: pointer
+}

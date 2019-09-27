@@ -3,34 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <title>Invosight</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  {{ style('/css/bootstrap.min') }}
+  {{ style('/css/fontawesome.min') }}
+  {{ style('/css/style') }}
 </head>
   <body>
     <section class="p-3">
       <div class="form-row justify-content-center">
-        <div class="col-md-auto">
+        <div class="col-md-4">
           <div class="card shadow mb-2">
             <div class="card-body">
-              <h5 class="card-title">Invosight test</h5>
+              <img src="{{ assetsUrl('images/inv.png') }}" />
+            </div>
+          </div>
+          <div class="card shadow mb-2">
+            <div class="card-body">
+              <div class="form-row">
+                <div class="col-auto">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div class="col">
+                  hendzcode@gmail.com 
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card shadow mb-2">
+            <div class="card-body">
+              <ul>
+                <li><h6><strong>Bulk Delete</strong></h6></li>
+                <p>Please select min 1 data, then bulk delete button will appear in the right side of refresh button.</p>
+                <li><h6><strong>Refresh</strong></h6></li>
+                <p>If you create some user, table list maybe will look full, you can use refresh button to make table look more good.</p>
+              </ul>
             </div>
           </div>
         </div>
-        <div class="col-sm-12 col-md-9">
+        <div class="col-sm-12 col-md-8">
           <div class="card shadow">
             <!--CARD START-->
             <div class="card-body">
               <h5 class="card-title">User list</h5>
               <div class="d-flex">
-                <button class="btn btn-primary mb-2 mt-3 mr-2" id="create-btn" data-toggle="modal" data-target="#createModal">Create New</button>
-                <button class="btn btn-danger mb-2 mt-3 d-none" id="bulk-delete-btn">Delete Selected</button>
+                <button class="btn btn-primary mb-2 mt-3 mr-2" id="create-btn" data-toggle="modal" data-target="#createModal">
+                  <i class="fas fa-plus mr-2"></i>Add User
+                </button>
+                <button class="btn btn-secondary mb-2 mt-3 mr-2" id="refresh-btn"><i class="fas fa-redo mr-2"></i>Refresh</button>
+                <button class="btn btn-danger mb-2 mt-3 d-none" id="bulk-delete-btn"><i class="fas fa-trash mr-2"></i>Bulk Delete</button>
               </div>
               <table class="table table-striped">
                   <thead>
-                    <th><input type="checkbox" name="del-all[]" class="mr-2">Name</th>
-                    <th>Address</th>
-                    <th>Email</th>
+                    <th class="w-25"><input type="checkbox" name="del-all[]" class="mr-2">Name</th>
+                    <th class="w-25">Address</th>
+                    <th class="w-25">Email</th>
                     <th>Contact</th>
-                    <th></th>
+                    <th class="w-15"></th>
                   </thead>
                   <tbody>
                     <!-- GET DATA USER -->
@@ -55,6 +82,7 @@
     
     {{ script('/js/jquery.min.js') }}
     {{ script('/js/bootstrap.min.js') }}
+    {{ script('/js/fontawesome.min.js') }}
     {{ script('/js/crud.js') }}
   </body>
 </html>
