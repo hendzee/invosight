@@ -19,6 +19,7 @@ const Route = use('Route')
 Route.on('/').render('users.index')
 
 Route.group(() => {
+    Route.get('invosight-user/page/:page', 'InvosightUserController.pagination')
     Route.get('invosight-user', 'InvosightUserController.index')
     Route.get('invosight-user/:id', 'InvosightUserController.show')
     Route.post('invosight-user', 'InvosightUserController.store').validator('StoreUser')

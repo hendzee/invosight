@@ -1,12 +1,18 @@
+/** This file is function collection to handle CRUD (Create, Read, Update, Delete)
+ *  to the database.
+ *  writer: Virginia Hendras Prawira
+ *  email: hendzcode@gmail.com
+ */
+
 $(document).ready(function(){
     /** Get data when first load page */
     $.ajax({
         url: window.location.origin + '/api/invosight-user',
         type: 'GET',
         success: function(response){
-            $.each(response, function(index, element) {
+            $.each(response.users, function(index, element) {
                 $('tbody').append(
-                '<tr><td>' + element.first_name + ' ' + element.last_name + '</td>' +
+                '<tr><td><input type="checkbox" name="del-id-list[]" class="mr-2">' + element.first_name + ' ' + element.last_name + '</td>' +
                 '<td>' + element.address + '</td>' +
                 '<td>' + element.email + '</td>' +
                 '<td>' + element.contact + '</td>' +
@@ -14,7 +20,26 @@ $(document).ready(function(){
                 '<button id="delete-btn" class="btn btn-primary delete-btn" data-id="' + element._id + '">Remove</button></td></tr>'
                 );
             });
+
+            if (response.pageWillShow > 0){
+                /** Set pagination start */
+                for (i=0; i<response.pageWillShow; i++){
+                    
+                    if (i===0){
+                        $('.pagination').append('<li class="page-item page-number active"><div class="page-link">' + (i+1) + '</div></li>');
+                    }else{
+                        $('.pagination').append('<li class="page-item page-number"><div class="page-link">' + (i+1) + '</div></li>');
+                    }
+                }
+                /** Set pagination end */
+            }
         }
+    })
+
+    /** Add active class to selected page button */
+    $(document).on('click', '.page-number', function(){
+        $('.page-number').removeClass('active');
+        $(this).addClass('active');
     })
 
     /** Save or create new user */
@@ -25,7 +50,8 @@ $(document).ready(function(){
         var email = $('[name="email"]').val()
         var contact = $('[name="contact"]').val()
 
-        if (first_name.length != 0){
+        if (first_name.length != 0 && last_name.length != 0 && address.length !=0 &&
+                email.length !=0 && contact.length !=0 ){
             $.ajax({
                 url: window.location.origin + '/api/invosight-user',
                 type: 'POST',
@@ -33,8 +59,8 @@ $(document).ready(function(){
                 data: { first_name: first_name, last_name: last_name, address: address, email: email, contact: contact },
                 success: function(response){
                     /** Append new data user to row */
-                    $('tbody').append(
-                        '<tr><td>' + response.first_name + ' ' + response.last_name + '</td>' +
+                    $('tbody').prepend(
+                        '<tr class="bg-success text-white"><td>' + response.first_name + ' ' + response.last_name + '<br><span class="badge badge-light">New</span></td>' +
                         '<td>' + response.address + '</td>' +
                         '<td>' + response.email + '</td>' +
                         '<td>' + response.contact + '</td>' +
@@ -144,5 +170,28 @@ $(document).ready(function(){
                 $('.alert').removeClass('d-none');
             }
         });
+    })
+
+    /** Pagination function handler */
+    $(document).on('click', '.page-item', function(){
+        var page = $(this).text();
+
+        $.ajax({
+            url: window.location.origin + '/api/invosight-user/page/' + page,
+            type: 'GET',
+            success: function(response){
+                $('tbody').empty();
+                $.each(response, function(index, element) {
+                    $('tbody').append(
+                    '<tr><td>' + element.first_name + ' ' + element.last_name + '</td>' +
+                    '<td>' + element.address + '</td>' +
+                    '<td>' + element.email + '</td>' +
+                    '<td>' + element.contact + '</td>' +
+                    '<td><button class="btn btn-primary mr-2 edit-btn" data-id="' + element._id + '">Edit</button>' + 
+                    '<button id="delete-btn" class="btn btn-primary delete-btn" data-id="' + element._id + '">Remove</button></td></tr>'
+                    );
+                });
+            }
+        })
     })
 })

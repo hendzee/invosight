@@ -5,9 +5,40 @@ const InvosightUser = use('App/Models/InvosightUser');
 class InvosightUserController {
     /** Show all user data */
     async index({ response }){
-        let user = await InvosightUser.all();
+        const limitNum = 5;
+        const offsetBottom = 0;
+
+        const users = await InvosightUser.limit(limitNum).skip(offsetBottom).fetch();
+
+        const pageWillShow = await this.pageCount();
+
+        const data = {users: users, pageWillShow: pageWillShow}
+
+        return response.json(data);
+    }
+
+    /** Select user by page selected */
+    async pagination({ params, response }) {
+        const page = parseInt(params.page);
+        const limitNum = 5;
+        const dataSize = InvosightUser.count();
+
+        var offsetBottom = ((page-1) * limitNum) + 1;
+
+        if (page === 1){
+            offsetBottom = 0;
+        }
+
+        const user = await InvosightUser.limit(limitNum).skip(offsetBottom).fetch();
 
         return response.json(user);
+    }
+
+    async pageCount() {
+        const limitNum = 5
+        const dataSize = await InvosightUser.count();
+        
+        return (Math.ceil(dataSize / limitNum)) 
     }
 
     /** Create new data user */
